@@ -76,6 +76,7 @@ class FaceGraphic extends GraphicOverlay.Graphic {
     }
 
     void setId(int id) {
+        //lihtsalt selleks et näha mis on id
         System.out.println(id);
         mFaceId = id;
     }
@@ -96,6 +97,7 @@ class FaceGraphic extends GraphicOverlay.Graphic {
     @Override
     public void draw(Canvas canvas) {
         Face face = mFace;
+        //selleks et teha asju kui id'd pole näha, aga see teeb asju ainult siis kui id muutub(uus nägu)
         if (mFaceId >= 1){
             System.out.println("lamp");
             mFaceId = 0;
