@@ -98,12 +98,11 @@ class FaceGraphic extends GraphicOverlay.Graphic {
     public void draw(Canvas canvas) {
         Face face = mFace;
         //selleks et teha asju kui id'd pole näha, aga see teeb asju ainult siis kui id muutub(uus nägu)
-        if (mFaceId >= 1){
+        /*if (mFaceId >= 1){
             System.out.println("lamp");
             mFaceId = 0;
-        }
+        }*/
         if (face == null) {
-            System.out.println("lampi");
             return;
         }
 

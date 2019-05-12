@@ -28,6 +28,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -43,15 +49,23 @@ import com.google.android.gms.samples.vision.face.facetracker.ui.camera.GraphicO
 import java.io.IOException;
 
 import static com.google.android.gms.vision.face.FaceDetector.ACCURATE_MODE;
-import static com.google.android.gms.vision.face.FaceDetector.ALL_LANDMARKS;
-import static com.google.android.gms.vision.face.FaceDetector.NO_CLASSIFICATIONS;
 import static com.google.android.gms.vision.face.FaceDetector.NO_LANDMARKS;
 
 /**
  * Activity for the face tracker app.  This app detects faces with the rear facing camera, and draws
  * overlay graphics to indicate the position, size, and ID of each face.
  */
-public final class FaceTrackerActivity extends AppCompatActivity {
+
+public final class FaceTrackerActivity extends AppCompatActivity implements View.OnClickListener {
+    //telefoni lukustamine
+    private Button lock, disable, enable;
+    public static final int RESULT_ENABLE = 11;
+    private DevicePolicyManager devicePolicyManager;
+    private ComponentName compName;
+
+
+
+
     private static final String TAG = "FaceTracker";
 
     private CameraSource mCameraSource = null;
@@ -73,6 +87,19 @@ public final class FaceTrackerActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+
+        super.onCreate(icicle);
+        setContentView(R.layout.activity_main);
+        devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE);
+        compName = new ComponentName(this, MyAdmin.class);
+
+        lock = (Button) findViewById(R.id.lock);
+        enable = (Button) findViewById(R.id.enableBtn);
+        disable = (Button) findViewById(R.id.disableBtn);
+        lock.setOnClickListener(this);
+        enable.setOnClickListener(this);
+        disable.setOnClickListener(this);
+
         setContentView(R.layout.main);
 
 
@@ -166,6 +193,9 @@ public final class FaceTrackerActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        boolean isActive = devicePolicyManager.isAdminActive(compName);
+        disable.setVisibility(isActive ? View.VISIBLE : View.GONE);
+        enable.setVisibility(isActive ? View.GONE : View.VISIBLE);
 
         startCameraSource();
     }
@@ -330,6 +360,7 @@ public final class FaceTrackerActivity extends AppCompatActivity {
          */
         @Override
         public void onDone() {
+            System.out.println("lammas");
             mOverlay.remove(mFaceGraphic);
         }
     }
