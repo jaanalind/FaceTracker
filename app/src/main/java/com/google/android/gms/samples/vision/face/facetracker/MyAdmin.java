@@ -1,5 +1,5 @@
 package com.google.android.gms.samples.vision.face.facetracker;
-//telefoni lukustamise jaoks, veel pole vaja
+
 import android.app.admin.DeviceAdminReceiver;
 import android.content.Context;
 import android.content.Intent;
